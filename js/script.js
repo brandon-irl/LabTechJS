@@ -5,7 +5,7 @@
 function LabTech(config){
     this.username = config.username;
     this.password = config.password;
-    this.baseUrl = config.baseurl;
+    this.baseUrl = config.baseurl + "wcc2/api/";
 };
 
 LabTech.prototype.isConfigured = function(){

@@ -480,41 +480,26 @@
     exports.Repository = Repository;
 });
 
-var LabTech = LabTech || {};
-LabTech.Urls = LabTech.Urls || {};
-LabTech.Props = LabTech.Props || {};
-
-LabTech.Urls.API = "/WCC2/api/";
-LabTech.Urls.Clients = "/WCC2/api/Clients";
-LabTech.Urls.Locations = "/WCC2/api/Locations";
-LabTech.Urls.TicketStubs = "/WCC2/api/TicketStubs";
-LabTech.Urls.Tickets = "/WCC2/api/Tickets";
-LabTech.Urls.TicketTemplate = "/WCC2/Tickets/Detail";
-LabTech.Urls.TicketData = "/WCC2/api/TicketData";
-LabTech.Urls.TicketPriorities = "/WCC2/api/TicketPriorities";
-LabTech.Urls.ClientStubs = "/WCC2/api/ClientStubs";
-LabTech.Urls.ComputerStubs = "/WCC2/api/ComputerStubs";
-LabTech.Urls.Computers = "/WCC2/api/Computers";
-LabTech.Urls.Users = "/WCC2/api/Users";
-LabTech.Urls.ScriptStubs = "/WCC2/api/ScriptStubs";
-LabTech.Urls.ScriptFolders = "/WCC2/api/ScriptFolders";
-LabTech.Urls.Commands = "/WCC2/api/Commands";
-LabTech.Urls.Passwords = "/WCC2/api/Passwords";
-LabTech.Urls.ProductKeys = "/WCC2/api/ProductKeys";
-LabTech.Urls.Reports = "/WCC2/api/Reports";
-LabTech.Urls.ReportFolders = "/WCC2/api/ReportFolders";
-LabTech.Urls.ReportViewer = "/WCC2/ReportViewer.aspx";
-LabTech.Urls.generateInstallPackage = "/Labtech/Deployment.aspx";
-LabTech.Urls.Timers = "/WCC2/api/Timers";
-LabTech.Urls.TimeCategories = "/WCC2/api/TimeCategories";
-LabTech.Urls.PluginsApi = "/WCC2/api/Plugins";
-
 var BaseRepository = (function () {
     /*Constructor*/
-    function BaseRepository(url) {
+    function BaseRepository(url, idName) {
         if (typeof url !== 'string' || url.length === 0) {
             throw 'invalid url'
         }
+        if (typeof idName === 'undefined') {
+            idName = '';
+        }
+        /**
+      * Reduces the size of entities returned from the server by removing unneeded
+      * properties. Reducing is only appropriate for entities that will NOT be sent
+      * back to the server. By default it simply returns the entity passed in.
+      * @param {number} indexInArray - The index of the entity in the array.
+      * @param {any} entity - The entity to reduce.
+      * @reutnrs {any} The reduced entity.
+      */
+        this.EntityReduction = function (entity) {
+            return entity;
+        };s
     }
 
     BaseRepository.prototype.GetByID = function (ID, subProperties) {
@@ -561,66 +546,21 @@ var BaseRepository = (function () {
 })();
 exports.BaseRepository = BaseRepository;
 
-var Context = (function () {
-
-    /* Constructor */
-    function Context() {
-        this.Alerts = new AlertRepository();
-        this.AutoStartups = new AutoStartups();
-        this.AutoStartupsStubs = new BaseRepository(LabTech.Urls.AutoStartupsStubs);
-        this.Clients = new ClientRepository();
-        this.ClientStubs = new BaseRepository(LabTech.Urls.ClientStubs);
-        this.CommandLookup = new BaseRepository(LabTech.Urls.CommandLookup);
-        this.Commands = new CommandsRepository();
-        this.Computers = new ComputerRepository();
-        this.ComputerStubs = new BaseRepository(LabTech.Urls.ComputerStubs);
-        this.Contracts = new ContractsRepository();
-        this.DriveStubs = new DriveStubsRepository();
-        this.Hotfixes = new HotfixRepository();
-        this.HotfixStubs = new BaseRepository(LabTech.Urls.HotfixStubs);
-        this.Locations = new LocationRepository();
-        this.Monitors = new MonitorRepository();
-        this.Passwords = new PasswordRepository();
-        this.Printers = new PrintersRepository();
-        this.ProcessDefinitions - new ProcessDefinitionsRepository();
-        this.Processes = new ProcessRepository();
-        this.ProcessStubs = new BaseRepository(LabTech.Urls.ProcessStubs);
-        this.ProductKeys = new ProductKeysRepository();
-        this.ReportFolders = new ReportFoldersRepository();
-        this.Reports = new ReportRepository();
-        this.ScriptFolders = new ScriptFolderepository();
-        this.ScriptHistoryStubs = new BaseRepository(LabTech.Urls.ScriptHistoryStubs);
-        this.ScriptStubs = new BaseRepository(LabTech.Urls.ScriptStubs);
-        this.Services = new ServiceRepository();
-        this.Software = new SoftwareRepository();
-        this.SoftwareStubs = new BaseRepository(LabTech.Urls.SoftwareStubs);
-        this.TicketData = new TicketDataRepository();
-        this.TicketPriorities = new BaseRepository(LabTech.Urls.TicketPriorities);
-        this.Tickets = new BaseRepository(LabTech.Urls.Tickets);
-        this.TicketStatuses = new BaseRepository(LabTech.Urls.TicketStatuses);
-        this.TicketStubs = new BaseRepository(LabTech.Urls.TicketStubs);
-        this.TicketCategories = new BaseRepository(LabTech.Urls.TicketCategories);
-        this.Timers = new BaseRepository(LabTech.Urls.Timers);
-        this.TimeSlips = new BaseRepository(LabTech.Urls.TimeSlips);
-        this.UserPermissionsStubs = new UserPermissionsStubsRepository();
-        this.Users = new UsersRepository();
+/* EXTENSION REPOS */
+var ClientRepository = (function (_super) {
+    __extends(ClientRepository, _super);
+    function ClientRepository() {
+        _super.call(this, LabTech.Urls.Clients, "ClientID");
+        this.EntityReduction = function (entity) {
+            if (typeof entity.ClientID !== "undefined") {
+                return {
+                    ClientID: entity.ClientID,
+                    Name: entity.Name
+                };
+            }
+            return entity;
+        };
     }
-
-    var ClientsRepository = (function () { })();
-
-    var ComputersRepository = (function () { })();
-
-    var LocationsRepository = (function () { })();
-
-    var TicketDataRepository = (function () { })();
-
-    var TicketRepository = (function () { })();
-
-    var ProcessesRepository = (function () { })();
-
-    var UserPermissionsStubsRepository = (function () {
-    })();
-
-
-})();
-exports.Context = Context;
+    return ClientRepository;
+})(Repository.Repository);
+exports.ClientRepository = ClientRepository;
