@@ -50,7 +50,7 @@ build/config/buildinfo.properties
 *.ico
 
 #Test files
-*.html
+404.html
 *.txt
 *.config
 *.xml
