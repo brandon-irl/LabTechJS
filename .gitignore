@@ -54,3 +54,4 @@ build/config/buildinfo.properties
 *.txt
 *.config
 *.xml
+*.htaccess
