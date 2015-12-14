@@ -36,10 +36,10 @@ BaseRepository.prototype.GetByID = function (ID, subProperties) {
     }
     var promise = this.doRequest(url);
     return promise.then(function (result) {
-        if (typeof data !== 'object') {
+        if (typeof result !== 'object') {
           //  promise.reject();
         }
-        data.d = _this.EntityReduction(data);
+        result.d = _this.EntityReduction(result);
         //promise.resolve(data.d);
     }, function (err) {
         //promise.reject();
