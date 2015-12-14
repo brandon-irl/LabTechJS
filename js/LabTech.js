@@ -94,13 +94,14 @@ LabTech.prototype.AssignToken = function(){
     var _this = this;
     var promise = this.doPost(url, { "username": this._username, "password": this._password });
         
-    return promise.then(function (result) {
+    promise.then(function (result) {
         result = result.replace(/^"(.*)"$/, '$1');  //Strip the " " from the beginning and end
         _this.Props.Token = result;
         _this.buildRepositories(result);
     }, function (err) {
         console.log(err);
     });
+    return promise;
 }
 
 LabTech.prototype.doPost = function (url, postBody) {

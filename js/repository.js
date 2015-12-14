@@ -26,7 +26,26 @@
 }
 
 BaseRepository.prototype.GetByID = function (ID, subProperties) {
-        
+    var _this = this;
+    if (typeof subProperties === 'undefined') {
+        subProperties = null;
+    }
+    var url = this._url + '(' + ID + ')?';
+    if (subProperties) {
+        url += this.GetExpandPropertiesUrl(subProperties);
+    }
+    var promise = this.doRequest(url);
+    return promise.then(function (result) {
+        if (typeof data !== 'object') {
+          //  promise.reject();
+        }
+        data.d = _this.EntityReduction(data);
+        //promise.resolve(data.d);
+    }, function (err) {
+        //promise.reject();
+    });
+
+    return promise;
 };
 
 BaseRepository.prototype.GetPage = function (pageSettings) {
