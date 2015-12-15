@@ -92,16 +92,15 @@ LabTech.prototype.buildRepositories = function (token) {
 LabTech.prototype.AssignToken = function(){
     var url = this._url + this.Urls.Token;
     var _this = this;
-    var promise = this.doPost(url, { "username": this._username, "password": this._password });
-        
-    promise.then(function (result) {
+    return this.doPost(url, { "username": this._username, "password": this._password }).then(function (result) {
         result = result.replace(/^"(.*)"$/, '$1');  //Strip the " " from the beginning and end
         _this.Props.Token = result;
         _this.buildRepositories(result);
+        return result;
     }, function (err) {
         console.log(err);
+        return err;
     });
-    return promise;
 }
 
 LabTech.prototype.doPost = function (url, postBody) {

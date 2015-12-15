@@ -11,7 +11,7 @@ $("#executebutton").click(function () {
     var lt = new LabTech(ep, un, pw);
     lt.AssignToken().then(function (result) {
         console.log("Token receieved: " + result);
-        lt.Computers.GetByID(4).then(function (result) {
+        lt.Computers.GetCount().then(function (result) {
             success(result);
         });
     }, function (err) {
