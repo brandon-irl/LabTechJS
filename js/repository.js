@@ -315,19 +315,25 @@ BaseRepository.prototype.doRequest = function (url) {
 };
 
 /* EXTENSION REPOS */
-var ClientRepository = function (_super) {
-__extends(ClientRepository, _super);
-function ClientRepository() {
-    _super.call(this, LabTech.Urls.Clients, "ClientID");
-    this.EntityReduction = function (entity) {
-        if (typeof entity.ClientID !== "undefined") {
-            return {
-                ClientID: entity.ClientID,
-                Name: entity.Name
-            };
-        }
-        return entity;
-    };
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
 }
-return ClientRepository;
-}
+
+var ClientRepository = (function (_super) {
+    __extends(ClientRepository, _super);
+    function ClientRepository(url, token) {
+        _super.call(this, url + LabTech.Urls.Clients, "ClientID", token);
+        this.EntityReduction = function (entity) {
+            if (typeof entity.ClientID !== "undefined") {
+                return {
+                    ClientID: entity.ClientID,
+                    Name: entity.Name
+                };
+            }
+            return entity;
+        };
+    }
+    return ClientRepository;
+})(BaseRepository);
