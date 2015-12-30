@@ -56,5 +56,4 @@ js/plugins.js
 *.config
 *.xml
 *.htaccess
-test/index.html
 LabTechJS_TestAPP

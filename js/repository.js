@@ -1,4 +1,4 @@
-﻿function BaseRepository(url, idName, token) {
+function BaseRepository(url, idName, token) {
     if (typeof url !== 'string' || url.length === 0) {
         throw 'invalid url'
     }
@@ -49,8 +49,8 @@ BaseRepository.prototype.GetByID = function (ID, subProperties) {
         }
         result.d = _this.EntityReduction(result);
         return result;
-    }, function (err) {
-        return err;
+    }).catch(function (err) {
+        throw(err);
     });
 };
 
@@ -89,8 +89,8 @@ BaseRepository.prototype.GetPage = function (pageSettings) {
             result.d.results[i] = _this.EntityReduction(result.value[i]);
         }
         return result;
-    }, function (err) {
-        return err;
+    }).catch(function (err) {
+        throw(err);
     });
 };
 
@@ -119,8 +119,8 @@ BaseRepository.prototype.GetCount = function (filter, queryParameters) {
         //    return;
         //}
         return result;
-    }, function (err) {
-        return err;
+    }).catch(function (err) {
+        throw(err);
     });
 };
 
@@ -170,8 +170,8 @@ BaseRepository.prototype.ProcessPage = function (data, fullData) {
     var promise = this.doRequest(data['@odata.nextLink']);
     promise.then(function (data) {
         return _this.ProcessPage(data, fullData);
-    }, function (err) {
-        promise.reject
+    }).catch(function (err) {
+        promise.reject(err);
     });
     promise.resolve(fullData);
     return promise;

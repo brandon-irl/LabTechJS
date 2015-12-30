@@ -1,4 +1,4 @@
-﻿function LabTech(url, username, password) {
+function LabTech(url, username, password) {
     this._url = url;
     this._username = username;
     this._password = password;
@@ -96,9 +96,8 @@ LabTech.prototype.AssignToken = function(){
         _this.Props.Token = result;
         _this.buildRepositories(result);
         return result;
-    }, function (err) {
-        console.log(err);
-        return err;
+    }).catch(function (err) {
+        throw(err);
     });
 }
 

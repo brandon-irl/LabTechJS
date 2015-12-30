@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html lang="en">
+
+
+
+<head><meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>LabTechJS Test</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.20.0.css">
+</head>
+
+
+
+<body>    
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    
+    <p>UserName</p>
+    <input id="uninput" type=text value=""/>
+    
+    <p>Password</p>
+    <input id="pwinput" type=password  value=""/>
+    
+    <p>Endpoint</p>
+    <input id="endpointinput" type=text value=""/>
+    
+    <input id="executebutton" type=submit value="Execute"/>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+    <script src="../js/LabTech.js"></script>
+    <script src="../js/repository.js"></script>
+    <script src="script.js"></script>
+    <script type="text/javascript">
+    
+        //TODO: LABTECH SHOULD HOST A TESTER CLOUD INSTANCE THAT WILL ALLOW DEVELOPERS TO ALWAYS ACCESS A SYSTEM WITH CREDENTIALS
+        var labtech = new LabTech($("#endpointinput").val(), $("#uninput").val(), $("#pwinput").val());
+
+        /* ASSIGN TOKEN  */
+        QUnit.test("ASSIGN TOKEN", function(assert){
+            var done = assert.async();
+            labtech.AssignToken().then(function (result) {
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+
+        /*  COMPUTERS ENDPOINT */
+
+        QUnit.module("Computers Endpoint");
+        QUnit.test("GetAll()", function(assert){
+            var done = assert.async();
+            labtech.Computers.GetAll().then(function(result){
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+        QUnit.test("GetCount()", function(assert){
+            var done = assert.async();
+            labtech.Computers.GetCount().then(function(result){
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+        QUnit.test("GetByID()", function(assert){
+            var done = assert.async();
+            labtech.Computers.GetByID(1).then(function(result){
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+
+        /* CLIENTS ENDPOINT */
+        
+        QUnit.module("Clients Endpoint");
+        QUnit.test("GetAll()", function(assert){
+            var done = assert.async();
+            labtech.Clients.GetAll().then(function(result){
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+        QUnit.test("GetCount()", function(assert){
+            var done = assert.async();
+            labtech.Clients.GetCount().then(function(result){
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+        QUnit.test("GetByID()", function(assert){
+            var done = assert.async();
+            labtech.Clients.GetByID(1).then(function(result){
+                assert.ok(true);
+                done();
+            }).catch(function(err){
+                assert.ok(false);
+                done();
+            });
+        });
+    
+    </script>
+
+</body>
+
+
+
+</html>
+
+
