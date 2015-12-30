@@ -40,88 +40,92 @@
     <script type="text/javascript">
     
         //TODO: LABTECH SHOULD HOST A TESTER CLOUD INSTANCE THAT WILL ALLOW DEVELOPERS TO ALWAYS ACCESS A SYSTEM WITH CREDENTIALS
-        var labtech = new LabTech($("#endpointinput").val(), $("#uninput").val(), $("#pwinput").val());
 
-        /* ASSIGN TOKEN  */
-        QUnit.test("ASSIGN TOKEN", function(assert){
-            var done = assert.async();
-            labtech.AssignToken().then(function (result) {
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
+		QUnit.module( "Assign Token", function( hooks ) {
+			hooks.beforeEach( function( assert ) {
+				QUnit.stop();
+				var done = assert.async();
+				this.labtech = new LabTech($("#endpointinput").val(), $("#uninput").val(), $("#pwinput").val());
+				this.labtech.AssignToken().then(function (result) {
+					assert.ok(true);
+					QUnit.start();
+					done();
+				}).catch(function(err){
+					assert.ok(false);
+					done();
+				});
+			} );
+			
+			//  COMPUTERS ENDPOINT	//	
+			QUnit.module( "Computers Endpoint", function( hooks ) {		 
+				QUnit.test("GetAll()", function(assert){
+					var done = assert.async();
+					this.labtech.Computers.GetAll().then(function(result){
+						assert.ok(true);
+						done();
+					}).catch(function(err){
+						assert.ok(false);
+						done();
+					});
+				});
+				QUnit.test("GetCount()", function(assert){
+					var done = assert.async();
+					this.labtech.Computers.GetCount().then(function(result){
+						assert.ok(true);
+						done();
+					}).catch(function(err){
+						assert.ok(false);
+						done();
+					});
+				});
+				QUnit.test("GetByID()", function(assert){
+					var done = assert.async();
+					this.labtech.Computers.GetByID(1).then(function(result){
+						assert.ok(true);
+						done();
+					}).catch(function(err){
+						assert.ok(false);
+						done();
+					});
+				});
+			} );
 
-        /*  COMPUTERS ENDPOINT */
-
-        QUnit.module("Computers Endpoint");
-        QUnit.test("GetAll()", function(assert){
-            var done = assert.async();
-            labtech.Computers.GetAll().then(function(result){
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
-        QUnit.test("GetCount()", function(assert){
-            var done = assert.async();
-            labtech.Computers.GetCount().then(function(result){
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
-        QUnit.test("GetByID()", function(assert){
-            var done = assert.async();
-            labtech.Computers.GetByID(1).then(function(result){
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
-
-        /* CLIENTS ENDPOINT */
-        
-        QUnit.module("Clients Endpoint");
-        QUnit.test("GetAll()", function(assert){
-            var done = assert.async();
-            labtech.Clients.GetAll().then(function(result){
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
-        QUnit.test("GetCount()", function(assert){
-            var done = assert.async();
-            labtech.Clients.GetCount().then(function(result){
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
-        QUnit.test("GetByID()", function(assert){
-            var done = assert.async();
-            labtech.Clients.GetByID(1).then(function(result){
-                assert.ok(true);
-                done();
-            }).catch(function(err){
-                assert.ok(false);
-                done();
-            });
-        });
-    
+			//  CLIENTS ENDPOINT  //
+			QUnit.module("Clients Endpoint", function( hooks ){
+				QUnit.test("GetAll()", function(assert){
+					var done = assert.async();
+					this.labtech.Clients.GetAll().then(function(result){
+						assert.ok(true);
+						done();
+					}).catch(function(err){
+						assert.ok(false);
+						done();
+					});
+				});
+				QUnit.test("GetCount()", function(assert){
+					var done = assert.async();
+					this.labtech.Clients.GetCount().then(function(result){
+						assert.ok(true);
+						done();
+					}).catch(function(err){
+						assert.ok(false);
+						done();
+					});
+				});
+				QUnit.test("GetByID()", function(assert){
+					var done = assert.async();
+					this.labtech.Clients.GetByID(1).then(function(result){
+						assert.ok(true);
+						done();
+					}).catch(function(err){
+						assert.ok(false);
+						done();
+					});
+				});
+			});			
+		} );
+		
+		
     </script>
 
 </body>
